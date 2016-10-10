@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width">
+		<title>Travel Forecast</title>
+		<link rel="stylesheet" type="text/css" href="travelForecast.css"/>
+	</head>
+	<body>
+		<header>
+			<h1>2-Week Travel Forecast</h1>
+			<div id="shortIntro"> to see what's happening in the next 2 weeks around the world!</div>
+		</header>
+		<div id="searchArea">
+			<input type="text" id="userInput" placeholder="Where to?"></input>
+			<button id="showButton">Search</button>
+		</div>
+		<div id="displayData">
+			<p id="content"></p>
+			<div id="expediaData"></div>
+		</div>
+		<p id="credit-to-API">Created with Flickr and Expedia APIs</p>
+		<p id="photoCredit">Initial Background PC: Michelle Jay</p>
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script src="travelForecast.js"></script>
+	</body>
+</html>

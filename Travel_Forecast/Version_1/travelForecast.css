@@ -1,0 +1,176 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: relaway, sans-serif;
+	font-size: 24px;
+	background-image:url("cities.jpg");
+	background-size:cover;
+}
+
+@font-face{
+	font-family: relaway;
+	src:url(raleway-medium.ttf);
+}
+
+header{
+	position:fixed;
+	background-color: rgba(128, 128, 128,0.2);
+	width: 100%;
+	height: 80px;
+	top: 0px;
+	left: 0px;
+	z-index: 10;
+}
+
+h1{	
+	position:relative;
+	left:10%;
+	top:5px;
+	align:center;
+	color: #404040;
+	font-size:1.2em;
+}
+
+#shortIntro{
+	display:block;
+	position:fixed;
+	top:80px;
+	right:10px;
+	width:180px;
+	font-size: 0.9em;
+	color:#808080;
+}
+
+#searchArea{
+	position:fixed;
+	right:10%;
+	top:20px;
+	z-index:10;
+}
+
+#userInput{
+	font-family: relaway, sans-serif;
+	width:120px;
+	height:30px;
+  	border: none;
+  	font-size:0.8em;
+}
+/*color for searchWord*/
+#color{
+	font-size:1.5em;
+	color: orange;
+/*	text-decoration: underline;
+*/}
+
+#showButton{
+	position:relative;
+	height:40px;
+	width:90px;
+	left:30px;
+	font-family: relaway, sans-serif;
+	font-size:0.8em;
+	color: black;
+	background-color:white;
+	border:hidden;
+}
+
+#showButton:hover{
+	color:white;
+	background-color: gray;
+}
+
+#expediaButton{
+	position:relative;
+	height:30px;
+	width:140px;
+	top:215px;
+	left:170px;
+	font-family: relaway, sans-serif;
+	font-size:0.7em;
+	color: black;
+	background-color:white;
+	border:hidden;
+	z-index: 11;
+}
+
+#expediaButton:hover{
+	color:white;
+	background-color: gray;
+}
+
+#displayData{
+	position:fixed;
+	background-color: rgba(115, 115, 115,0.5);
+	color:white;
+	width: 100%;
+	top: 30%;
+	left: 0px;
+	z-index: 10;
+}
+
+#content{
+	position:fixed;
+	top:30%;
+	left:10%;
+	width:80%;
+	color:white;
+	z-index:10;
+}
+
+#expediaData{
+	position:fixed;
+	top:30%;
+	left:10%;
+	width:90%;
+	color:white;
+	z-index: 10;
+}
+
+#photoCredit{
+	position:absolute;
+	top:95%;
+	left:10px;
+	bottom:0px;
+	font-size:0.6em;
+	z-index:9;
+}
+#credit-to-API{
+	position:absolute;
+	top:95%;
+	right:10px;
+	bottom:0px;
+	font-size:0.6em;
+	z-index:9;
+}
+
+@media(max-width: 800px){
+	#searchArea{
+		position:fixed;
+		left:10%;
+		top:21%;
+		z-index:10;
+	}
+	#showButton{
+		font-size:0.7em;
+		height:30px;
+		width:70px;
+	}
+	#userInput{
+		width:100px;
+		height:30px;
+	  	border: none;
+	  	font-size:0.7em;
+	}
+	#shortIntro{
+		top:20%;
+		left:60%;
+		font-size: 0.65em;
+	}
+	#expediaData{
+		font-size: 0.7em;
+	}
+	#photoCredit, #credit-to-API{
+		font-size:0.4em;
+	}
+
+}

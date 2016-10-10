@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width">
+		<title>Travel Forecast</title>
+		<link rel="stylesheet" type="text/css" href="travelForecast.css"/>
+	</head>
+	<body>
+		<header>
+			<h1>2-Week Travel Forecast</h1>
+			<div id="shortIntro"> to see what's happening in the next 2 weeks around the world!</div>
+		</header>
+
+		<section id="main">
+			<div id="searchArea">
+				<input type="text" id="userInput" placeholder="Where to?"></input>
+				<button id="showButton">Search</button>
+			</div>
+			<div id="displayData">
+				<p id="content"></p>
+				<button id="expediaButton">Next 5 Activities</button>
+				<div id="expediaData"></div>
+			</div>
+			<p id="credit-to-API">Created with Flickr and Expedia APIs</p>
+			<p id="photoCredit">Initial Background PC: Michelle Jay</p>
+		</section>
+
+		<button id="documentationBtn">Ducumentation</button>
+		<article id = "documentationContent"> 
+			<p>For Assignment 1, we are supposed to make a single webpage that uses AJAX to pull data from at least two web APIs and displays data in a meaningful way. The week before this assignment was due, I started to play around with the Flickr API, because I thought websites that display photos beautifully are very cool. I ended up creating this <a target = "_blank" href = "http://xt405.nyuad.im/Mashups/Cat_It/flickr.html">Cat It</a> page that fetches the user kitten photos from Flickr. It was a lot fun, and I sort of decided to continue working with Flickr for this first assignment.</p>
+
+			<p>It took me a few days to think through what I want to and can achieve with the Flickr photo.search API and some other APIs. I brainstormed a lot of ideas by adding up two different APIs. For example, Flickr + Spotify = users can listen to music while enjoying photos in different categories (cute animals + lighthearted music, travel photos + country/pop music, etc). But without digging too deep into the Spotify API, I  thought this idea was kinda difficult to implement given my limited knowledge of web development and the time restraint. So after I brainstormed many other ideas, I settled with the Expedia API that returns upcoming Expedia events (mostly tours and tickets to various places).</p>
+
+			<p>Then I moved onto the next phase, combining the two APIs’ data. The Flickr API was a pain. I want to refresh the displayed photo every few seconds, but I ran into a lot of trouble. First I googled how to have the search function executed repeatedly, and experimented with the setInterval and clearInterval functions. But at first I was not using them properly, so I kept exceeding the search limit and my Flickr API keys kept expiring. Towards the end, I adjusted these functions and restricted the ser input, and problem solved (though Flickr API is still funky. I think it expires my key a couple more times without obvious reasons).</p>
+
+			<p>In comparison, the Expedia API was surprisingly handy, I mean, easy to manipulate. It returns data promptly without any delay, and stays very cooperative the entire time. Thank you, Expedia. The only thing I need to change, towards the end, was how the data was displayed. When I presented the first complete version of this webpage to Craig, he immediately pointed out that I should not automatically update the Expedia activities list; instead, I should give the user a “next” button to click. I felt the same way, so I created a counter to keep track of how many times this next button has been pressed, and display the next 5 activity items accordingly. Here I ran into another trouble — because I put the button click eventListener inside the Expedia AJAX call, it created duplicated counter variables. This way the counter was not accurate at all. What Craig suggested was to create a separate function outside the ExpediaSearch function, which will execute after the eventListener senses a click. Of course, I polluted the global environment by doing all this. ha.</p>
+
+			<p>Finally, I named this webpage “Travel Forecast”. And without further changes, I presented it to the class and got some useful feedbacks. In terms of visual design, a couple of classmates suggested that I increase the opacity of the top bar. The thing is, I actually decreased the opacity on purpose, because when the background images are displayed I don’t want a lot of visual distractions from the bar. Another suggestion was, design some fade-in fade-out effect for the image transitions. I completely agree on this one and will keep looking for ways to achieve this. Other feedbacks were mainly on the Expedia search result. For some non-mainstream travel destinations, Expedia does not provide a lot of data. So what I did was, if the data size is greater than 5, display the first 5 items first and gives the user the choice to click for “next”; if there are less than 5 items in the dataset, display an “error” message which tells the user that data is insufficient. But apparently, there are some cases where neither of these two options work. I will have to look more closely into that issue.</p>
+
+			<p>Overall, I feel this is a great start for me to dive deeper into the world of web development. I truly enjoyed the process of doing this assignment, and am prepared to learn some more fancy stuff (p5, paper, underscore, etc)!</p>
+			<button id="exitDocumentationBtn">Back to Page</button>
+
+		</article>
+
+		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script src="travelForecast.js"></script>
+	</body>
+</html>
