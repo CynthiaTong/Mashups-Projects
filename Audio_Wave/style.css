@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker');
+/*@import url('https://fonts.googleapis.com/css?family=Cookie');
+*/@import url('https://fonts.googleapis.com/css?family=Handlee');
+
+body {
+	padding: 0;
+	margin: 0;
+	font-family: 'Permanent Marker', helvetica;
+	font-size:40px;
+	background-color: rgb(0,0,0);
+}
+
+header {
+	position:relative;
+	top:0;
+	padding:0;
+	margin:0;
+	text-align: center;
+}
+
+h1 {
+	padding:0;
+	margin:20px 0 10px 0;
+	color:white;
+	font-size: 1.6em;
+}
+
+#searchArea {
+	position:relative;
+	top:0;
+	padding:0;
+	width:100%;
+	text-align: center;
+}
+
+#searchBtn {
+	outline:none;
+	background-color: #3399ff;
+	color: black;
+	border: none;
+	width:8%;
+	padding:7px;
+	font-size: 0.5em;
+	font-family: 'Handlee', helvetica;
+	cursor:pointer;
+}
+
+#searchBtn:hover {
+	background-color: #1a8cff;
+	color: white;
+	box-shadow: inset 0 0 0 3px #66b3ff;
+}
+
+#userInput {
+	background-image:url("/images/searchIcon.png");
+	background-repeat: no-repeat;
+	background-size: 36px 36px;
+    background-position: 0 0;
+	width:30%;
+	height:5%;
+	padding:3px 35px;
+	font-size: 0.6em;
+	font-family: 'Handlee', helvetica;
+}
+
+
+#controlArea {
+	position:relative;
+	top:30px;
+	left:2%;
+	height:80px;
+	text-align: center;
+}
+
+#controlBtn {
+	/* prevent default blue outline after button click */
+	outline:none;
+
+	border: none;
+	background-color:black;
+	/*background-image: url("/images/playIcon.png");
+	background-repeat: no-repeat;
+	background-size: 60px 40px;
+    background-position: 0 0;*/
+	float:left;
+	margin-left:40%;
+	padding:0;
+	width:60px;
+	height:50px;
+	padding:5px;
+	font-size: 0.4em;
+	font-family: 'Handlee', helvetica;
+	align-content: center;
+	cursor:pointer;
+}
+
+#controlBtn:hover {
+	/*background-color:gray;*/
+/*	color:white;
+*/}
+
+#volumeArea {
+	float:left;
+	position:relative;
+	width:200px;
+	height:50px;
+	margin: 5px 3%;
+}
+
+#volumeIcon {
+	float:left;
+	margin-top:5px;
+}
+
+#volume {
+	float:left;
+	margin-top:16px;
+	margin-left:3px;
+
+	/*removes default webkit styles*/
+    -webkit-appearance: none;
+	
+	width: 120px;
+}
+
+#volume::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 6px;
+    background: #ddd;
+    border: none;
+    border-radius: 2px;
+    margin-top: 2px;
+}
+
+#volume::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3399ff;
+    margin-top: -8px;
+}
+
+#container {
+	position:relative;
+	top:0;
+	width:100%;
+	height:550px;
+}
+
+#svg, #svg2 {
+	display: block;
+}
+
+#soundcloudIcon {
+	position:absolute;
+	top:10px;
+	left:15px;
+}
