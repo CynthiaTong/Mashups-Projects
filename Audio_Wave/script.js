@@ -273,7 +273,7 @@ function stopSound() {
 function getSoundData(searchWord) {
 	console.log("Getting sound data");
 
-	clientID = "98f18f7088398973c9090d2309d08568";
+	clientID = "YOUR-ID";
 	var clientUrl = "?client_id=" + clientID;
 
 	SC.initialize({
