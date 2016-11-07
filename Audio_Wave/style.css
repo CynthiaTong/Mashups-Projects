@@ -1,13 +1,17 @@
+/*This style.css file is meant to be used for the Audio Wave project. */
+
 @import url('https://fonts.googleapis.com/css?family=Permanent+Marker');
-/*@import url('https://fonts.googleapis.com/css?family=Cookie');
-*/@import url('https://fonts.googleapis.com/css?family=Handlee');
+@import url('https://fonts.googleapis.com/css?family=Handlee');
 
 body {
 	padding: 0;
 	margin: 0;
+	min-width:1000px;
 	font-family: 'Permanent Marker', helvetica;
 	font-size:40px;
 	background-color: rgb(0,0,0);
+	/* hide the horizontal scrollbar */
+	overflow-x: hidden;
 }
 
 header {
@@ -20,7 +24,7 @@ header {
 
 h1 {
 	padding:0;
-	margin:20px 0 10px 0;
+	margin:40px 0 10px 0;
 	color:white;
 	font-size: 1.6em;
 }
@@ -35,7 +39,7 @@ h1 {
 
 #searchBtn {
 	outline:none;
-	background-color: #3399ff;
+	background-color: #3385ff;
 	color: black;
 	border: none;
 	width:8%;
@@ -46,29 +50,31 @@ h1 {
 }
 
 #searchBtn:hover {
-	background-color: #1a8cff;
+	background-color: #0066ff;
 	color: white;
-	box-shadow: inset 0 0 0 3px #66b3ff;
+/*	box-shadow: inset 0 0 0 3px #66b3ff; */
 }
 
 #userInput {
-	background-image:url("/images/searchIcon.png");
+	background-image:url("images/searchIcon.png");
 	background-repeat: no-repeat;
 	background-size: 36px 36px;
     background-position: 0 0;
 	width:30%;
 	height:5%;
 	padding:3px 35px;
+	margin-left:2%;
+	margin-bottom:1%;
 	font-size: 0.6em;
 	font-family: 'Handlee', helvetica;
 }
 
 
 #controlArea {
-	position:relative;
+	position:relative5;
 	top:30px;
 	left:2%;
-	height:80px;
+	height:60px;
 	text-align: center;
 }
 
@@ -78,15 +84,10 @@ h1 {
 
 	border: none;
 	background-color:black;
-	/*background-image: url("/images/playIcon.png");
-	background-repeat: no-repeat;
-	background-size: 60px 40px;
-    background-position: 0 0;*/
 	float:left;
-	margin-left:40%;
-	padding:0;
-	width:60px;
-	height:50px;
+	margin-left:45%;
+	width:6%;
+	height:5%;
 	padding:5px;
 	font-size: 0.4em;
 	font-family: 'Handlee', helvetica;
@@ -94,17 +95,12 @@ h1 {
 	cursor:pointer;
 }
 
-#controlBtn:hover {
-	/*background-color:gray;*/
-/*	color:white;
-*/}
-
 #volumeArea {
 	float:left;
 	position:relative;
-	width:200px;
+	width:160px;
 	height:50px;
-	margin: 5px 3%;
+	margin: 5px 1%;
 }
 
 #volumeIcon {
@@ -121,6 +117,7 @@ h1 {
     -webkit-appearance: none;
 	
 	width: 120px;
+	outline:none;
 }
 
 #volume::-webkit-slider-runnable-track {
@@ -155,6 +152,89 @@ h1 {
 
 #soundcloudIcon {
 	position:absolute;
-	top:10px;
-	left:15px;
+	top:7%;
+	left:65%;
 }
+
+#songTitle {
+	position:absolute;
+	top:35%;
+	left:10%;
+	width:80%;
+	text-align:center;
+	color:white;
+	font-size:1.5em;
+}
+
+#docBtn {
+	position: fixed;
+	top:30px;
+	left:3%;
+	outline:none;
+	background-color: #3385ff;
+	text-decoration: none;
+	color: black;
+	border: none;
+	width:6%;
+	height:4%;
+	padding-top: 5px;
+	padding-left: 10px;
+	text-align: center;
+	font-size: 0.5em;
+	font-family: 'Handlee', helvetica;
+	cursor:pointer;
+
+	background-image:url("images/githubIcon.png");
+	background-repeat: no-repeat;
+	background-size: 22px 22px;
+    background-position: 5px 5px;
+}
+
+#docBtn:hover {
+	background-color: #0066ff;
+	color: white;
+}
+
+/*#documentation {
+	position:absolute;
+	top:120px;
+	left:10%;
+	right:10%;
+	font-family:helvetica, sans-serif;
+	font-size:0.5em;
+	color:gray;
+}*/
+
+@media(max-width: 1350px){
+
+	#searchBtn {
+		width: 9%;
+		font-size:0.5em;
+	}
+
+	#soundcloudIcon {
+		left:68%;
+	}	
+}
+
+@media(max-width: 1170px){
+
+	h1 {
+		font-size:1.4em;
+	}
+
+	#searchBtn {
+		width: 9%;
+		font-size:0.4em;
+	}
+
+	#userInput {
+		font-size:0.4em;
+	}
+
+	#soundcloudIcon {
+		width:6%;
+		left:69%;
+	}	
+}
+

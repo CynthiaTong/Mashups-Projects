@@ -1,3 +1,11 @@
+/* This js document is meant to be used for the Audio Wave project.
+   The webpage called "Audio Wave" gets data from the soundCloud API.
+   Audio streaming is done with Web Audio API, and visualization is done with D3.js. 
+   This project mainly presents a visualization of the frequency data from each incoming soundtrack,
+   with the accompaning search function and play/pause animation.  
+
+   Created by Cynthia Tong in October, 2016. All rights reserved. 
+*/
 
 //web audio api variables 
 var context;
@@ -6,25 +14,27 @@ var source;
 var gainNode;
 var analyserNode;
 var frequencyData;
-
 //sound control variables 
 var soundReady = false;
 var paused = false;
 var stopped = false;
 var firstClick = true;
 var pausedAt, startedAt;
-
 //SVGs 
 var svg, w, h;
 var svg2;
-
 //visualize or next track button 
 var searchBtn;
-
+var controlBtn;
 //songNum for counting color palette number, 
 //trackNum for counting which track from the data array is played. 
 var songNum, trackNum;
+//spinner variable (controlled by spin.js)
+var spinner;
+//the title of soundtracks
+var trackTitle;
 
+//*** create the initial SVGs ***//
 function createSVG() {
 	frequencyData = new Uint8Array(200);
 	// console.log(frequencyData);
@@ -41,7 +51,7 @@ function createSVG() {
 		.attr("width", w)
 		.attr("height", h);
 
-	//Create our initial D3 chart.
+	//Create initial D3 Bar chart.
 	svg.selectAll("rect")
 	   .data(frequencyData)
 	   .enter()
@@ -51,6 +61,7 @@ function createSVG() {
 	   })
 	   .attr('width', w / frequencyData.length - barPadding);
 
+	//Create initial D3 Reflection Chart.
 	svg2 = d3.select("#container")
 		.append("svg")
 		.attr("id", "svg2")
@@ -67,9 +78,9 @@ function createSVG() {
 	   .attr('width', w / frequencyData.length - barPadding);
 
 	updateChart();
-	// updateLine();
 }
 
+//assign bar color based on songNum
 function assignColor(d) {
 
 	if (songNum === 0) {
@@ -81,12 +92,11 @@ function assignColor(d) {
 	} else if (songNum === 3) {
 		return 'rgb(0,'  + d + ',' + d +')';
 	} else if (songNum === 4) {
-		return 'rgb(0, 0,' + d +')';
-	} else if (songNum === 5) {
 		return 'rgb(' + d + ',' + d + ', 0)';
 	} 
 }
 
+//assign reflection color based on songNum
 function assignReflection(d) {
 
 	if (songNum === 0) {
@@ -98,12 +108,11 @@ function assignReflection(d) {
 	} else if (songNum === 3) {
 		return 'rgba(0,'  + d + ',' + d +', 0.4)';
 	} else if (songNum === 4) {
-		return 'rgba(0, 0,' + d +', 0.4)';
-	} else if (songNum === 5) {
 		return 'rgba(' + d + ',' + d + ', 0, 0.4)';
 	} 
 }
 
+//*** hide chart after pause/next track/visualize button clicked ***//
 function hideChart() {
 
 	svg.selectAll('rect')
@@ -127,7 +136,9 @@ function hideChart() {
 		.duration(1200);
 }
 
+//*** update the charts with frequencyData ***//
 function updateChart() {
+	
 	requestAnimationFrame(updateChart);
 
    // Copy frequency data to frequencyData array.
@@ -138,7 +149,7 @@ function updateChart() {
 		var rects = svg.selectAll('rect')
 	      			   .data(frequencyData);
 
-
+	    //visualize the bars 
 	   	rects.attr("id", "rects")
 	   		.attr("margin", "0")
 	   		.attr('y', function(d) {
@@ -154,6 +165,7 @@ function updateChart() {
 		var reflections = svg2.selectAll('rect')
 	      			   		  .data(frequencyData);
 
+	    //visualize the reflections 
 	   	reflections.attr("id", "reflections")
 	   		.attr("margin", "0")
 	   		.attr('y', function(d) {
@@ -168,7 +180,7 @@ function updateChart() {
 	  }
 }
 
-//initialize the audio context
+//*** initialize the audio context ***//
 function initContext() {
   try {
   	context = new window.AudioContext() || new window.webkitAudioContext();
@@ -194,15 +206,26 @@ function makeAudioRequest(trackUrl) {
 	  		soundReady = true;
 	  		console.log("Done Audio Request!");
 
-	  		$("#controlArea").show();
+	  		// $("#controlArea").show();
 
 	  		gainNode = context.createGain();
 			analyserNode = context.createAnalyser();
 
+			//when sound is ready, playSound, change searchBtn text and activate searchBtn
 	  		playSound();
-	  		$("#searchBtn").html("Next Track"); 	
-			searchBtn.disabled = false;	 
+	  		$("#searchBtn").html("Next Track"); 
+	  		//assign the barChart fill color to searchButton 
+	  		$("#searchBtn").css("background-color", function() {
+	  			var color = assignColor(200);
+	  			return color;
+	  		});
+
+			searchBtn.disabled = false;
+    		$("#controlBtn").attr("disabled",false);
+			//stop the spinner 
 			spinner.stop();
+		    displaySongTitle(trackTitle);
+
 		}
 	  });
 	};
@@ -210,12 +233,14 @@ function makeAudioRequest(trackUrl) {
 	request.send();
 }
 
+//set volume according to the volume bar 
 function volumeControl() {
 	document.getElementById("volume").addEventListener("change", function() {
     	gainNode.gain.value = this.value;
 	});	
 }
 
+//*** when visualize or next track button clicked, play sound ***//
 function playSound() {
 
 	source = context.createBufferSource(); // creates a sound source
@@ -236,10 +261,10 @@ function playSound() {
 	firstClick = false;
 
 	createSVG();
-
 }
 
-function restartSound() {
+//*** when play button clicked, resume sound ***//
+function resumeSound() {
 
 	source = context.createBufferSource(); // creates a sound source
 	//get the current sound volume 
@@ -261,19 +286,20 @@ function restartSound() {
 	paused = false;
 }
 
+//*** when pause button clicked, pause sound ***//
 function stopSound() {
 	source.stop(0);
 	pausedAt = Date.now() - startedAt;
 	
 	paused = true;		
 	console.log("Sound Paused");
-	//hideChart();
 }
 
+//*** Get soundtrack data from soundCloud API ***//
 function getSoundData(searchWord) {
 	console.log("Getting sound data");
 
-	clientID = "YOUR-ID";
+	clientID = "98f18f7088398973c9090d2309d08568";
 	var clientUrl = "?client_id=" + clientID;
 
 	SC.initialize({
@@ -282,55 +308,74 @@ function getSoundData(searchWord) {
 
 	SC.get('/tracks', {
       q: searchWord, 
+
     }).then(function(tracks) {
-  		console.log(tracks);
 
   		if (tracks && tracks.length !== 0) {
 
-  			// var num = getRandomInt(0, tracks.length-1);
-  			if (trackNum > tracks.length-1) {
-  				trackNum = 0;
-  			}
+			if (trackNum > tracks.length-1) {
+				trackNum = 0;
+			}
 
-  			console.log("track being played: "+ trackNum);
-  			requestUrl = tracks[trackNum].stream_url + clientUrl;
-  			console.log(requestUrl);
-  			makeAudioRequest(requestUrl);
-  			trackNum ++;
+			console.log("track being played: " + trackNum);
+
+			var requestUrl = tracks[trackNum].stream_url + clientUrl;
+			console.log(requestUrl);
+
+			makeAudioRequest(requestUrl);
+
+			trackTitle = tracks[trackNum].title;
+			trackNum ++;
 
   		}else {
   			alert("No search results. Please try another track.");
   		}
+
 	});
+}
+
+//when new track is loaded, diplay its title 
+function displaySongTitle(currentTrack) {
+
+	console.log("current track:", currentTrack);
+	$("#songTitle").html(currentTrack);
+	$("#songTitle").css("color", function() {
+  		var color = assignColor(200);
+  		return color;
+  	});
+
+	setTimeout(function() {
+		$("#songTitle").html("");
+	}, 4500);
 }
 
 function isAlphaNum(str) {
     return /^[A-Za-z0-9\s]+$/.test(str);
 }
 
-var spinner;
-
 $(document).ready(function() {
 
-	// $("#controlArea").hide();
-	// $("#volume").hide();
+	$("#volume").hide();
+    $("#controlBtn").attr("disabled","disabled");
 
-	// $("#volumeArea").hover(
-	// 	function() {
-	// 		$("#volume").fadeIn(800);
-	// 	},
-	// 	function() {
-	// 		$("#volume").fadeOut(800);
-	// 	}
-	// );
+	$("#volumeArea").hover(
+		function() {
+			$("#volume").fadeIn(800);
+		},
+		function() {
+			$("#volume").fadeOut(800);
+		}
+	);
+
+	//spinner options 
 	var opts = {
 		lines: 13, // The number of lines to draw
-		length: 18, // The length of each line
+		length: 16, // The length of each line
 		width: 10, // The line thickness
 		radius: 30, // The radius of the inner circle
 		scale: 1, // Scales overall size of the spinner
 		corners: 1, // Corner roundness (0..1)
-		color: '#3399ff', // #rgb or #rrggbb or array of colors
+		color: "#FFF", // #rgb or #rrggbb or array of colors
 		opacity: 0.25 ,// Opacity of the lines
 		rotate: 0 ,// The rotation offset
 		direction: 1, // 1: clockwise, -1: counterclockwise
@@ -344,9 +389,12 @@ $(document).ready(function() {
 		shadow: false, // Whether to render a shadow
 		hwaccel: false ,// Whether to use hardware acceleration
 		position: 'absolute' // Element positioning
-		};
+	};
+
+	//spinner target: spinnerElement 
 	var target = document.getElementById('spinnerElement');
 
+	//initialize audio context
 	initContext();
 	
 	//when user changes input 
@@ -354,13 +402,12 @@ $(document).ready(function() {
 
     	//when user presses enter key, trigger searchButton click 
         var keyCode = event.which;   
-        if (keyCode == 13) {
-            $("#searchBtn").trigger("click");
-            console.log("Enter Key Pressed!");
-            }
+        if (keyCode == 13) $("#searchBtn").trigger("click");
 
         //when input changes, change searchButton text back to "visualize"
         $("#searchBtn").html("Visualize");
+        $("#searchBtn").css("background-color", "#3399ff");
+        $("#controlBtn").html("<img src='images/pauseIcon.png' width=50 height=50>");
         //check the track number back to 0 
         trackNum = 0;
     });  
@@ -369,6 +416,7 @@ $(document).ready(function() {
 		console.log("search button clicked");
 
 		var input = $("#userInput").val();
+		var searchBtnText = $("#searchBtn").html();
 
 		if (isAlphaNum(input)) {
 
@@ -377,89 +425,63 @@ $(document).ready(function() {
 	    
 			songNum ++;
 
-			if (songNum > 5) {
+			if (songNum > 4) {
 				songNum = 0;
 			}
 			console.log("Current User Input: " + input);
 
+			//if not firstClick, stop sound, 
+			//hide previous visualization and create new frequencyData
 			if (!firstClick) {
+
 				source.stop();
+				//change the control button back to "pause" state 
+				$("#controlBtn").html("<img src='images/pauseIcon.png' width=50 height=50>");
+    			//disable play/pause until new soundtrack is loaded 
+    			$("#controlBtn").attr("disabled","disabled");
+
 				hideChart();
 				frequencyData = new Uint8Array(0);
-				// $('#container').html('');
+
 			} else {
+				//if firstClick, set songNum to 0 
 				songNum = 0;
 			}
 
 			paused = false;
 			console.log("Current songNum: " + songNum);
+
 			getSoundData(input); 
 
+			//start spinner 
 			spinner = new Spinner(opts).spin(target);
 
-
 		}else {
-			alert("Please enter a valid input.");
+			alert("Please enter a valid input (soundtrack or artist).");
 		}
 	});
 
 	$("#controlBtn").click(function() {
 
-		// console.log("control button clicked");
 		if (soundReady) {
 
 			if (paused || firstClick) {
-
-				$("#controlBtn").html("<img src='/images/playIcon.png' width=60 height=40>");
-				restartSound();
+				$("#controlBtn").html("<img src='images/pauseIcon.png' width=50 height=50>");
+				resumeSound();
 			}else {
-
-				$("#controlBtn").html("<img src='/images/pauseIcon.png' width=50 height=50>");
+				$("#controlBtn").html("<img src='images/playIcon.png' width=60 height=40>");
 				stopSound();
 			}
 
 		}
 	});
 
+	//hide the bar when the soundtrack ends. 
+	if (soundReady) {
+		source.onEnded(function() {
+			console.log("Soundtrack ended!");
+			hideChart();
+		});
+	}
+
 });
-
-//***  UNUSED CODE ***//
-
-function updateLine() {
-	requestAnimationFrame(updateLine);
-
-	var xScale = d3.scale.linear()
-    	.domain([0, frequencyData.length])
-    	.range([0, w]);
-
-	var yScale = d3.scale.linear()
-	    .domain([0, 256])
-	    .range([h, 0]);
-
-	// var line = d3.svg.line()
-	//    	.x(function(d, i) { 
-	//    		// console.log(xScale(i));
-	//    		return xScale(i); 
-	//    	})
-	//     .y(function(d, i) { 
-	//     	// console.log(yScale(d));
-	//     	return yScale(d); 
-	//     })
-	//     .interpolate("basis")
-	//     ;
-
-	// svg2.append("path")
-	// 	.datum(frequencyData)
- //       	.attr("d", line)
-	//     .attr("stroke", "black")
-	//     .attr("stroke-width", 5)
-	//     .attr("fill", "black");
-
-	// svg.select("path")
- //    	.datum(frequencyData)
- //    	.attr("d", line);
-}
-
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
