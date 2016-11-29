@@ -2,13 +2,11 @@
 Here I include projects I created for a web dev class "Mashups - Creating with Web APIs" I took in Fall, 2016. 
 
 ##About the Class 
-School: NYUAD Program: Interactive Media
-Course Number: MDMED-AD 116 Semester: Fall 2016
-Class: Tuesday 2:40pm - 3:55pm & Thursday 2:40pm - 5:20pm
-Room: Arts Center IM Lab (Rm.029)
+School: NYUAD   Program: Interactive Media
+
+Course Number: MDMED-AD 116   Semester: Fall 2016
 
 Instructor: Craig Protzel
-Email: craig.protzel@nyu.edu
 
 As the World Wide Web continues to grow and permeate our everyday lives, an ever-increasing amount of data and digital services are accessible to us through public web APIs - Application Programming Interfaces. Common to many web sites, including YouTube, Twitter, Google Maps, Wikipedia and more, web APIs offer a means to programmatically request and re-purpose endless troves of information. But how exactly do we access these datasets and services? How can we write code to transfer, store, and display this content on our own web sites? And how might we use these available resources to design unique, creative, and compelling web experiences of our own.
 
